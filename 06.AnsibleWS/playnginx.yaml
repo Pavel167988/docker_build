@@ -1,7 +1,7 @@
 ---
 - hosts: all_workers
   vars:
-     sites: ['vh1.by','vh2.by']       
+     sites: [vh1.by,vh2.by]       
   tasks:
     - name: Install Nginx
       package:
@@ -10,36 +10,32 @@
     - name: Enable and start service nginx
       service:
           name: nginx
-          state: reloaded
-    - name: Copey nginx.conf to /etc/nginx/sites-available/nginx.conf
+          state: started
+    - name: Copy nginx.conf.j2
       template:
-          src: /home/pavelogs/06.AnsibleWS/nginx.conf
-          dest: /etc/nginx/sites-available/nginx.conf
+          src: nginx.conf.j2
+          dest: /etc/nginx/sites-enabled/{{ item }}
           owner: root
           group: root
           mode: '0644'
-    - name: create symlink
-      file:
-          src: /etc/nginx/sites-available/nginx.conf
-          dest: /etc/nginx/sites-enabled/default
-          state: link
+      loop:
+         "{{ sites }}"
     - name: restart nginx
       service:
           name: nginx
           state: restarted    
-   
     - name: add vh's to hosts
       shell:
           grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
       loop:
-          "{{ sites  }}"
-
+          "{{ sites }}"
     - name: copy index.html to dest host
-      copy:
-        src: index.html
+      template:
+        src: index.j2
         dest: /var/www/{{ item }}/html/index.html
       loop:
         "{{ sites }}"
+        
     - name: restart nginx
       service:
         name: nginx
@@ -56,5 +52,4 @@
     - name: print info
       debug:
         msg: "{{ this }}"
-      tags:
-      - tests
+

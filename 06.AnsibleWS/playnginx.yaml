@@ -1,0 +1,60 @@
+---
+- hosts: all_workers
+  vars:
+     sites: ['vh1.by','vh2.by']       
+  tasks:
+    - name: Install Nginx
+      package:
+          name: nginx
+          state: latest
+    - name: Enable and start service nginx
+      service:
+          name: nginx
+          state: reloaded
+    - name: Copey nginx.conf to /etc/nginx/sites-available/nginx.conf
+      template:
+          src: /home/pavelogs/06.AnsibleWS/nginx.conf
+          dest: /etc/nginx/sites-available/nginx.conf
+          owner: root
+          group: root
+          mode: '0644'
+    - name: create symlink
+      file:
+          src: /etc/nginx/sites-available/nginx.conf
+          dest: /etc/nginx/sites-enabled/default
+          state: link
+    - name: restart nginx
+      service:
+          name: nginx
+          state: restarted    
+   
+    - name: add vh's to hosts
+      shell:
+          grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
+      loop:
+          "{{ sites  }}"
+
+    - name: copy index.html to dest host
+      copy:
+        src: index.html
+        dest: /var/www/{{ item }}/html/index.html
+      loop:
+        "{{ sites }}"
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+    - name: check index.html
+      uri:
+        url: "http://{{ item }}"
+        return_content: yes
+      register: this
+      failed_when: "'HELLO' not in this.content"
+      loop:
+        "{{ sites }}"
+
+    - name: print info
+      debug:
+        msg: "{{ this }}"
+      tags:
+      - tests

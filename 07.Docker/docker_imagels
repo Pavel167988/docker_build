@@ -1,0 +1,4 @@
+pavelogs@ubuntu20:~/07.Docker$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+server       1         91857e835221   28 minutes ago   48.3MB
+server       2         91857e835221   28 minutes ago   48.3MB

@@ -1,0 +1,2 @@
+pavelogs@ubuntu20:~/07.Docker$ docker run -d -p 8001:8001 --rm --name webserver server:1
+db913fce75b6b605e7f451de109b43575336aff6fe472a07498e22ede7468f18

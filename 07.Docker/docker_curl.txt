@@ -1,0 +1,6 @@
+pavelogs@ubuntu20:~/07.Docker$ curl http://localhost:8001
+<html>
+<head>
+<title>Hello World</title>
+</head>
+</html>

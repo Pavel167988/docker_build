@@ -46,3 +46,13 @@ jobs:
           context: .
           push: true
           tags: pavelogs/docker_push:2, pavelogs/docker_push:${{ github.run_number }}
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: docker_push
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Image Succesfully pushed'
+          SLACK_TITLE: 'Pushed in docker hub and github'
+          SLACK_USERNAME: Kostenko Pavel
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

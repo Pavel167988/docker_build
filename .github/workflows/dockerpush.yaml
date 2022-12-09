@@ -45,7 +45,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: pavelogs/docker_push:2, pavelogs/docker_push:${{ github.run_number }}
+          tags: pavelogs/docker_push:${{ github.run_number }}
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:

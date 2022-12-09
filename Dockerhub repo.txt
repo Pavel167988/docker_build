@@ -1,0 +1,4 @@
+https://hub.docker.com/repository/docker/pavelogs/docker_push
+
+
+https://hub.docker.com/layers/pavelogs/docker_push/8/images/sha256-9497c4f5712635953f3acda70bb1fe11ad0b1dd28d97c0b50701f2f31638ebe6?context=repo

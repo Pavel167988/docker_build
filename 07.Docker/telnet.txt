@@ -1,6 +1,0 @@
-pavelogs@ubuntu20:~/07.Docker$ pavelogs@ubuntu20:~/07.Docker$ telnet localhost 8001
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is '^]'.
-^C
-Connection closed by foreign host.
